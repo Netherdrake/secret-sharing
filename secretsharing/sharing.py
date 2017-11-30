@@ -9,12 +9,12 @@
 
 import string
 
-from six import integer_types
 from utilitybelt import int_to_charset, charset_to_int, base58_chars, \
     base32_chars, zbase32_chars
 from .primes import get_large_enough_prime
 from .polynomials import random_polynomial, \
     get_polynomial_points, modular_lagrange_interpolation
+from funcy import lmap, rpartial
 
 
 def secret_int_to_points(secret_int, point_threshold, num_points, prime=None):
@@ -46,8 +46,8 @@ def points_to_secret_int(points, prime=None):
     for point in points:
         if not isinstance(point, tuple) and len(point) == 2:
             raise ValueError("Each point must be a tuple of two values.")
-        if not (isinstance(point[0], integer_types) and
-                isinstance(point[1], integer_types)):
+        if not (isinstance(point[0], int) and
+                isinstance(point[1], int)):
             raise ValueError("Each value in the point must be an int.")
     x_values, y_values = zip(*points)
     if not prime:
@@ -66,8 +66,8 @@ def point_to_share_string(point, charset):
         raise ValueError(
             'The character "-" cannot be in the supplied charset.')
     if not (isinstance(point, tuple) and len(point) == 2 and
-            isinstance(point[0], integer_types) and
-            isinstance(point[1], integer_types)):
+            isinstance(point[0], int) and
+            isinstance(point[1], int)):
         raise ValueError(
             'Point format is invalid. Must be a pair of integers.')
     x, y = point
@@ -110,16 +110,13 @@ class SecretSharer():
     def split_secret(cls, secret_string, share_threshold, num_shares):
         secret_int = charset_to_int(secret_string, cls.secret_charset)
         points = secret_int_to_points(secret_int, share_threshold, num_shares)
-        shares = []
-        for point in points:
-            shares.append(point_to_share_string(point, cls.share_charset))
-        return shares
+        point_to_share_fn = rpartial(point_to_share_string, cls.share_charset)
+        return lmap(point_to_share_fn, points)
 
     @classmethod
     def recover_secret(cls, shares):
-        points = []
-        for share in shares:
-            points.append(share_string_to_point(share, cls.share_charset))
+        share_to_point_fn = rpartial(share_string_to_point, cls.share_charset)
+        points = lmap(share_to_point_fn, shares)
         secret_int = points_to_secret_int(points)
         secret_string = int_to_charset(secret_int, cls.secret_charset)
         return secret_string

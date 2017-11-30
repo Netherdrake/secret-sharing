@@ -6,6 +6,7 @@
     :copyright: (c) 2014 by Halfmoon Labs
     :license: MIT, see LICENSE for more details.
 """
+from funcy import first
 
 
 def calculate_mersenne_primes():
@@ -40,13 +41,9 @@ STANDARD_PRIMES.sort()
 
 
 def get_large_enough_prime(batch):
-    """ Returns a prime number that is greater all the numbers in the batch.
+    """ Returns a first prime number that is greater all the numbers in the batch.
     """
     # build a list of primes
     primes = STANDARD_PRIMES
-    # find a prime that is greater than all the numbers in the batch
-    for prime in primes:
-        numbers_greater_than_prime = [i for i in batch if i > prime]
-        if len(numbers_greater_than_prime) == 0:
-            return prime
-    return None
+    largest_primes = filter(lambda x: x > max(batch), primes)
+    return first(largest_primes)

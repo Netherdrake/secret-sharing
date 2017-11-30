@@ -8,7 +8,7 @@ from setuptools import setup
 
 setup(
     name='secretsharing',
-    version='0.2.6',
+    version='0.2.8',
     url='https://github.com/onenameio/secret-sharing',
     license='MIT',
     author='Halfmoon Labs',
@@ -20,7 +20,7 @@ setup(
     ],
     zip_safe=False,
     install_requires=[
-        'six',
+        'funcy',
         'utilitybelt',
     ],
     classifiers=[

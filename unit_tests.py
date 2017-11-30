@@ -9,13 +9,19 @@
 
 import random
 import unittest
-from test import test_support
 from utilitybelt import base64_chars
-from secretsharing import secret_int_to_points, points_to_secret_int, \
-    point_to_share_string, share_string_to_point, SecretSharer, \
-    HexToHexSecretSharer, PlaintextToHexSecretSharer, \
-    BitcoinToB58SecretSharer, BitcoinToB32SecretSharer, \
-    BitcoinToZB32SecretSharer
+from secretsharing import (
+    secret_int_to_points,
+    points_to_secret_int,
+    point_to_share_string,
+    share_string_to_point,
+    SecretSharer,
+    HexToHexSecretSharer,
+    PlaintextToHexSecretSharer,
+    BitcoinToB58SecretSharer,
+    BitcoinToB32SecretSharer,
+    BitcoinToZB32SecretSharer,
+)
 
 
 class ShamirSharingTest(unittest.TestCase):
@@ -84,11 +90,5 @@ class ShamirSharingTest(unittest.TestCase):
             "c4bbcb1fbec99d65bf59d85c8cb62ee2db963f0fe106f483d9afa73bd4e39a8a")
 
 
-def test_main():
-    test_support.run_unittest(
-        ShamirSharingTest
-    )
-
-
 if __name__ == '__main__':
-    test_main()
+    unittest.main()
