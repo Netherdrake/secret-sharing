@@ -8,8 +8,8 @@ from setuptools import setup
 
 setup(
     name='secretsharing',
-    version='0.2.8',
-    url='https://github.com/onenameio/secret-sharing',
+    version='0.2.9',
+    url='https://github.com/Netherdrake/secret-sharing',
     license='MIT',
     author='Halfmoon Labs',
     author_email='hello@halfmoon.io',
@@ -21,13 +21,11 @@ setup(
     zip_safe=False,
     install_requires=[
         'funcy',
-        'utilitybelt',
     ],
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.6',
     ],
 )

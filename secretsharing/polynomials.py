@@ -6,8 +6,16 @@
     :copyright: (c) 2014 by Halfmoon Labs
     :license: MIT, see LICENSE for more details.
 """
+from random import SystemRandom
 
-from utilitybelt import secure_randint as randint
+def randint(min_value, max_value, system_random=None):
+    """ Return a random integer N such that a <= N <= b.
+        Uses SystemRandom for generating random numbers.
+        (which uses os.urandom(), which pulls from /dev/urandom)
+    """
+    if not system_random:
+        system_random = SystemRandom()
+    return system_random.randint(min_value, max_value)
 
 
 def egcd(a, b):
